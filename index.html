@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dental Anaomalies</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI',
+          'Ubuntu', 'Droid Sans', sans-serif, 'Meiryo';
+        padding: 0 12px;
+      }
+
+      table {
+        border-collapse: collapse;
+        margin-bottom: 24px;
+        width: 100%;
+      }
+      table > thead > tr > th,
+      table > tbody > tr > td {
+        padding: 5px 10px;
+      }
+      table > thead > tr > th {
+        text-align: left;
+        border-bottom: 1px solid;
+      }
+      table > tbody > tr + tr > td {
+        border-top: 1px solid;
+      }
+
+      .tooltip {
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .tooltip img {
+        display: none;
+        position: absolute;
+        width: var(--tooltip-img-width, 300px);
+        height: auto;
+        border: 2px solid #f00;
+        background: #ffffcc;
+        padding: 5px;
+        z-index: 10;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(10px);
+        max-width: 90vw; /* ✅ prevents image from exceeding viewport width */
+        max-height: 80vh; /* ✅ keeps image inside visible page vertically */
+        object-fit: contain;
+        box-sizing: border-box;
+      }
+
+      .tooltip[data-position='below'] img {
+        bottom: auto;
+        top: 100%;
+      }
+
+      .tooltip:hover img {
+        display: block;
+        /* Reposition if too close to top or bottom of viewport */
+        top: auto;
+        bottom: auto;
+      }
+
+      .blurred {
+        filter: blur(3px);
+        transition: filter 0.3s ease;
+      }
+
+      table td:not(:first-child),
+      table td li {
+        cursor: pointer;
+      }
+
+      summary {
+        font-size: 22px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 16px 0;
+      }
+
+      details {
+        border: 2px solid #444;
+        border-radius: 8px;
+        padding: 10px;
+        background: #f9f9f9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blur-buttons">
+      <button id="blurAll">Blur All</button>
+      <button id="unblurAll">Unblur All</button>
+    </div>
+    <h3 id="enamel-anomalies"><strong>Enamel anomalies</strong></h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Anomaly</th>
+          <th>Definition / Key features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Fluorosis</strong></td>
+          <td>
+            <strong>Mottled enamel</strong> from excess fluoride; white chalky
+            patches to yellow/brown mottling.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Febrile-related enamel defects</strong></td>
+          <td>
+            <strong>Enamel malformation (bands/pitting)</strong> caused by high
+            childhood fevers affecting ameloblasts.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Tetracycline-induced staining</strong></td>
+          <td>
+            <strong>Intrinsic dark banding</strong> from tetracycline binding to
+            developing tooth calcium.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Amelogenesis imperfecta (AI)</strong></td>
+          <td>
+            <strong>Inherited enamel formation defects</strong> (hypoplastic,
+            hypomaturation, hypocalcified) → thin/soft/discolored enamel.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Enamel hypoplasia</strong></td>
+          <td>
+            <strong>Pits, grooves or large areas of deficient enamel</strong>,
+            often from childhood illness or antineoplastic therapy (Turner’s
+            tooth example).
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Deepened pits &amp; grooves (developmental)</strong></td>
+          <td>
+            <strong
+              >Incomplete enamel maturation → weak, caries-prone areas</strong
+            >
+            from ameloblast disruption.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Enamel pearl</strong></td>
+          <td>
+            <strong>Ectopic enamel on root bifurcations/trifurcations</strong>
+            that may impair periodontal attachment.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Cervical enamel extension</strong></td>
+          <td>
+            <strong>Flat elongated enamel from crown toward furcation</strong>,
+            linked to furcation problems and periodontal attachment loss.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <h3 id="dentin-anomalies"><strong>Dentin anomalies</strong></h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Anomaly</th>
+          <th>Definition / Key features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Dentinogenesis imperfecta (DGI)</strong></td>
+          <td>
+            <strong>Hereditary dentin defect</strong> → opalescent/blue-brown
+            teeth, bulbous crowns, obliterated or abnormal pulp chambers;
+            Shields types I–III.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Dentin dysplasia Type I (radicular)</strong></td>
+          <td>
+            <strong>&quot;Rootless&quot; teeth</strong> with short/absent roots,
+            periapical radiolucencies; crowns usually normal.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Dentin dysplasia Type II (coronal)</strong></td>
+          <td>
+            <strong>Primary teeth resemble DGI; permanent teeth</strong> have
+            thistle-tube pulp chambers and pulp stones.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong
+              >Regional odontodysplasia (affects dentin + enamel + pulp)</strong
+            >
+          </td>
+          <td>
+            <strong
+              >Localized developmental abnormality → “ghost teeth” (thin
+              enamel/dentin, large pulp), often fails to erupt.</strong
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <h3 id="tooth-shape--structural-anomalies">
+      <strong>Tooth shape / structural anomalies</strong>
+    </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Anomaly</th>
+          <th>Definition / Key features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Gemination</strong></td>
+          <td>
+            <strong>Single enlarged tooth</strong> from attempted division;
+            usually one root canal, normal tooth count.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Fusion</strong></td>
+          <td>
+            <strong>Two tooth buds fused into one large tooth</strong>;
+            typically shows missing tooth in count and separate root canals.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Concrescence</strong></td>
+          <td>
+            <strong>Teeth joined at roots by cementum</strong>, often following
+            inflammation.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Dilaceration</strong></td>
+          <td>
+            <strong>Abnormal angulation/bend of root or crown</strong>, commonly
+            post-traumatic.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Dens invaginatus (dens in dente)</strong></td>
+          <td>
+            <strong>Invagination of enamel/dentin into tooth</strong>; Oehler’s
+            Types I–III (crown → through-root).
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Dilated odontoma</strong></td>
+          <td>
+            <strong
+              >Severe invagination causing a dilated, malformed tooth</strong
+            >
+            (complication of dens invaginatus).
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Dens evaginatus</strong></td>
+          <td>
+            <strong>Accessory cusp/tubercle (often premolars)</strong>
+            containing enamel/dentin/pulp → high risk of pulp exposure.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Talon cusp</strong></td>
+          <td>
+            <strong
+              >Large accessory cusp on lingual of anterior teeth (≥½
+              CEJ→incisal)</strong
+            >; most common on maxillary laterals.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Taurodontism</strong></td>
+          <td>
+            <strong
+              >Enlarged pulp chamber with apically displaced floor and shortened
+              roots</strong
+            >; associated with syndromes.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Supernumerary roots</strong></td>
+          <td>
+            <strong>Accessory roots (radix entomolaris/paramolaris)</strong
+            >—important for endo/extraction planning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <h3 id="size--number--eruption-anomalies">
+      <strong>Size / number / eruption anomalies</strong>
+    </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Anomaly</th>
+          <th>Definition / Key features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Diffuse microdontia</strong></td>
+          <td>
+            <strong>Generalized small teeth</strong> (seen in Down syndrome,
+            pituitary dwarfism).
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Isolated microdontia (pegged laterals)</strong></td>
+          <td>
+            <strong>Single small/conical tooth</strong> (e.g., pegged lateral
+            incisor).
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Macrodontia</strong></td>
+          <td>
+            <strong>Teeth larger than normal</strong>, associated with
+            hemifacial hyperplasia/gigantism.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Disturbances in tooth number</strong></td>
+          <td>
+            <strong
+              >Anodontia, Hypodontia, Oligodontia, Hyperdontia (supernumerary),
+              Impaction</strong
+            >.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Ankylosis (localized eruption disturbance)</strong></td>
+          <td>
+            <strong
+              >Tooth fused to alveolar bone with absent PDL → halted
+              eruption/infraocclusion.</strong
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <h3 id="resorption--pulpal-alterations">
+      <strong>Resorption &amp; pulpal alterations</strong>
+    </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Anomaly</th>
+          <th>Definition / Key features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Internal resorption</strong></td>
+          <td>
+            <strong>Pulpal injury → resorption from inside</strong>,
+            balloon-shaped radiolucency; “pink tooth” if coronal.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>External resorption</strong></td>
+          <td>
+            <strong>Resorption of external tooth surfaces</strong> from trauma,
+            surgery, orthodontics, pressure from lesions.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <h3 id="tooth-wear"><strong>Tooth wear</strong></h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Anomaly</th>
+          <th>Definition / Key features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Attrition</strong></td>
+          <td>
+            <strong>Tooth-to-tooth wear</strong> (incisal/occlusal surfaces).
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Abrasion</strong></td>
+          <td>
+            <strong>Mechanical wear by external agents</strong> (toothbrush,
+            abrasive materials).
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Abfraction</strong></td>
+          <td>
+            <strong>Cervical loss from tooth flexure / occlusal stress</strong>.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Erosion</strong></td>
+          <td>
+            <strong>Chemical dissolution of tooth structure</strong> (acidic
+            foods, vomiting).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <h3 id="discoloration-extrinsic--intrinsic">
+      <strong>Discoloration (extrinsic &amp; intrinsic)</strong>
+    </h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Anomaly</th>
+          <th>Definition / Key features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Extrinsic discoloration</strong></td>
+          <td>
+            <strong>Surface stains</strong>: bacteria, tobacco, foods/beverages,
+            restorative materials — often removable.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Tetracycline staining</strong></td>
+          <td>
+            <strong>Intrinsic dark banding</strong> from tetracycline chelation
+            with calcium during development.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Hyperbilirubinemia-related discoloration</strong></td>
+          <td>
+            <strong>Greenish tooth color</strong> from bilirubin deposition in
+            developing teeth.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Porphyria (Gunther disease)</strong></td>
+          <td>
+            <strong>Red-brown intrinsic staining</strong>; primary teeth both
+            enamel &amp; dentin affected, permanent only dentin.
+          </td>
+        </tr>
+        <tr>
+          <td><strong>Fluorosis</strong></td>
+          <td>
+            (also an enamel anomaly) <strong>White/brown mottling</strong> from
+            excess fluoride.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr />
+    <h3 id="other-cementum--root"><strong>Other (cementum / root)</strong></h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Anomaly</th>
+          <th>Definition / Key features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hypercementosis</strong></td>
+          <td>
+            <strong>Excessive cementum deposition at root(s)</strong>;
+            radiopaque thickened roots, associated with local/systemic factors.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <style>
+      /* same as before */
+      .blurred {
+        filter: blur(10px);
+        transition: filter 0.3s ease;
+      }
+
+      /* Make clickable cursor for td */
+      table td:not(:first-child) {
+        cursor: pointer;
+      }
+
+      /* li inside blurred td will inherit blur from parent */
+      table td.blurred li {
+        filter: inherit;
+      }
+
+      .blur-buttons {
+        text-align: center;
+        margin-bottom: 16px;
+      }
+      .blur-buttons button {
+        margin: 0 5px;
+        padding: 5px 12px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .blur-section li {
+        cursor: pointer;
+        margin-bottom: 6px;
+      }
+
+      /* Blur effect same as td */
+      .blur-section li.blurred {
+        filter: blur(10px);
+        transition: filter 0.3s ease;
+      }
+
+      /* Override for bold text so it always stays clear */
+      .blur-section li.blurred b {
+        filter: none !important;
+      }
+
+      .blur-section .blur-target {
+        cursor: pointer;
+        display: inline-block;
+      }
+
+      .blurred {
+        filter: blur(10px);
+        transition: filter 0.3s ease;
+      }
+    </style>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Select table cells + blur-target spans
+        const blurCells = document.querySelectorAll(
+          'table td:not(:first-child), .blur-section .blur-target'
+        );
+
+        blurCells.forEach((cell) => {
+          cell.addEventListener('click', () => {
+            cell.classList.toggle('blurred');
+          });
+        });
+
+        // Keyboard shortcut (space toggles all)
+        document.addEventListener('keydown', (event) => {
+          if (event.code === 'Space') {
+            const allBlurred = Array.from(blurCells).every((cell) =>
+              cell.classList.contains('blurred')
+            );
+            if (allBlurred) {
+              blurCells.forEach((cell) => cell.classList.remove('blurred'));
+            } else {
+              blurCells.forEach((cell) => cell.classList.add('blurred'));
+            }
+            event.preventDefault();
+          }
+        });
+
+        // Buttons
+        document.getElementById('blurAll').addEventListener('click', () => {
+          blurCells.forEach((cell) => cell.classList.add('blurred'));
+        });
+        document.getElementById('unblurAll').addEventListener('click', () => {
+          blurCells.forEach((cell) => cell.classList.remove('blurred'));
+        });
+      });
+    </script>
+  </body>
+</html>
